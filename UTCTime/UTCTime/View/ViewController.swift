@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController {
     @IBOutlet var datetimeLabel: UILabel!
@@ -23,18 +25,25 @@ class ViewController: UIViewController {
     }
     
     let viewModel = ViewModel()
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.onUpdated = { [weak self] in
-            DispatchQueue.main.async {
-                self?.datetimeLabel.text = self?.viewModel.dateTimeString
-            }
-        }
+//        viewModel.onUpdated = { [weak self] in
+//            DispatchQueue.main.async {
+//                self?.datetimeLabel.text = self?.viewModel.dateTimeString
+//            }
+//        }
+        
+        viewModel.dateTimeString
+//            .observe(on: MainScheduler.instance)
+//            .subscribe { str in
+//                self.datetimeLabel.text = str
+//            }
+            .bind(to: datetimeLabel.rx.text)
+            .disposed(by: disposeBag)
         
         viewModel.reload()
-        
-        datetimeLabel.text = viewModel.dateTimeString
     }
 }
