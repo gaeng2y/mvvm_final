@@ -57,3 +57,15 @@
 2. ObservableObject 에서는 UI에 그려질 데이터를 제공해야 하니까 VM 이다.
 3. 비지니스 로직이 ObservableObject에 있어야 하나? 그럴필요 없다. Service 같은 곳으로 분리해야 하는 것이 맞다.
 4. ObservableObject 에서 Service에 어떻게 접근해야 하는가? 그래서 DI가 필요한 것이다.
+5. 왜 BehaviorRelay를 사용했나요?
+	Relay의 특성을 잠깐 살펴보면
+	
+	* Error, Completed 이벤트가 방출되지 않는다.
+	* Next 이벤트만 방출된다.
+	
+	입니다
+	
+	Error, Completed 이벤트가 방출되지 않기 때문에, 구독이 종료되지 않아서 UI Event에 사용하기 적절하기 때문이기도 하고
+	
+	BehaviorRelay를 이용해 기본 `Loading...`의 값을 초기에 넣어주기 위해 사용했다!
+
