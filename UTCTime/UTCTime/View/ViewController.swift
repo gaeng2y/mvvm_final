@@ -29,20 +29,29 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
+         // 기존
+        viewModel.onUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.datetimeLabel.text = self?.viewModel.dateTimeString
+            }
+        }
+        */
         
-//        viewModel.onUpdated = { [weak self] in
-//            DispatchQueue.main.async {
-//                self?.datetimeLabel.text = self?.viewModel.dateTimeString
-//            }
-//        }
-        
+        /*
+        // 1차
         viewModel.dateTimeString
-//            .observe(on: MainScheduler.instance)
-//            .subscribe { str in
-//                self.datetimeLabel.text = str
-//            }
+            .observe(on: MainScheduler.instance)
+            .subscribe { str in
+                self.datetimeLabel.text = str
+            }
+            .disposed(by: disposeBag)
+        */
+        // 2차
+        viewModel.dateTimeString
             .bind(to: datetimeLabel.rx.text)
             .disposed(by: disposeBag)
+                    
         
         viewModel.reload()
     }
